@@ -11,32 +11,63 @@ final List<Map<String, dynamic>> menus = [
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  void _msg(BuildContext context, String texte) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(texte)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ma Garderie'),
         actions: [
-          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => _msg(context, 'Rechercher un menu'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () => _msg(context, 'Aucune notification'),
+          ),
         ],
       ),
       drawer: Drawer(
         child: ListView(
-          children: const [
-            DrawerHeader(
+          children: [
+            const DrawerHeader(
               decoration: BoxDecoration(color: Colors.blue),
               child: Text('Ma Garderie',
                   style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
-            ListTile(leading: Icon(Icons.home), title: Text('Accueil')),
-            ListTile(leading: Icon(Icons.restaurant_menu), title: Text('Menus')),
-            ListTile(leading: Icon(Icons.info), title: Text('À propos')),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                Navigator.pop(context);
+                _msg(context, 'Accueil');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.restaurant_menu),
+              title: const Text('Menus'),
+              onTap: () {
+                Navigator.pop(context);
+                _msg(context, 'Menus');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('À propos'),
+              onTap: () {
+                Navigator.pop(context);
+                _msg(context, 'À propos');
+              },
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _msg(context, 'Ajouter un menu'),
         child: const Icon(Icons.add),
       ),
       body: Column(
@@ -59,6 +90,7 @@ class HomePage extends StatelessWidget {
                     title: Text(m['titre']),
                     subtitle: Text(m['description']),
                     trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _msg(context, m['titre']),
                   ),
                 );
               },
